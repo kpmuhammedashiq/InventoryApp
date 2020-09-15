@@ -174,6 +174,14 @@ public class InventoryAppResource {
                 .body("product variant deleted!!");
     }
 
-
+    @PostMapping("/product/product-variants/{id}")
+    public ResponseEntity<ProductVariant> saveProductVariantForProduct(@RequestBody ProductVariant productVariant,@PathVariable Long id){
+        log.debug("REST request to create ProductVariant for a product : {}", id);
+        Product product=productService.findById(id).get();
+        productVariant.setProduct(product);
+        ProductVariant result =productVariantRepository.save(productVariant);
+        return ResponseEntity.ok()
+                .body(result);
+    }
 
 }
