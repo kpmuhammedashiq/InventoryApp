@@ -1,6 +1,6 @@
 # InventoryApp
-app to add a pirticular product and create multiple variants of that specific product.
-
+* app to add a pirticular product and create multiple variants of that specific product.
+* two entities Product and ProductVariant
 
 
 # Run
