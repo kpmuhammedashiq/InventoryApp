@@ -30,7 +30,10 @@ public class InventoryAppResource {
     @Autowired
     ProductVariantService productVariantService;
 
+
+
     /********************************** Product end points **********************************/
+    
     /**
      *  Create a new product.
      *
@@ -108,6 +111,23 @@ public class InventoryAppResource {
     /********************************** ProductVariant end points **********************************/
 
     /**
+     * Create a new productVariant of a particular product.
+     *
+     * @param id of the parent product
+     * @param productVariant the productVariant to create.
+     * @return ResponseEntity<ProductVariant>
+     */
+    @PostMapping("/product/product-variants/{id}")
+    public ResponseEntity<ProductVariant> saveProductVariantForProduct(@RequestBody ProductVariant productVariant,@PathVariable Long id){
+        log.debug("REST request to create ProductVariant for a product : {}", id);
+        Product product=productService.findById(id).get();
+        productVariant.setProduct(product);
+        ProductVariant result =productVariantRepository.save(productVariant);
+        return ResponseEntity.ok()
+                .body(result);
+    }
+
+    /**
      * Create a new productVariant.
      *
      * @param productVariant the productVariant to create.
@@ -172,16 +192,6 @@ public class InventoryAppResource {
         productVariantService.deleteById(id);
         return ResponseEntity.ok()
                 .body("product variant deleted!!");
-    }
-
-    @PostMapping("/product/product-variants/{id}")
-    public ResponseEntity<ProductVariant> saveProductVariantForProduct(@RequestBody ProductVariant productVariant,@PathVariable Long id){
-        log.debug("REST request to create ProductVariant for a product : {}", id);
-        Product product=productService.findById(id).get();
-        productVariant.setProduct(product);
-        ProductVariant result =productVariantRepository.save(productVariant);
-        return ResponseEntity.ok()
-                .body(result);
     }
 
 }
